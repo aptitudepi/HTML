@@ -1,0 +1,84 @@
+<DOCTYPE! html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="att_file.css">
+</head>
+<body>
+<h1>Click and Drag!<h1>
+<h2>Orig. Code by Jeff T., modifications by DB(<a href="https://goo.gl/dQECRc"> Original Link by Jeff T.)</a></h2>
+<canvas id="c"></canvas>
+<script>
+"use strict";
+let
+M = Math, // Shorter reference to Math
+P = M.PI, // Shorter reference to Math.PI
+S = M.sin, // Shorter reference to Math.sin
+X = M.random, // Shorter reference to Math.random
+a = document.getElementById('c'), // Canvas element reference
+c = a.getContext('2d'), // Canvas context
+p = [], // Particle array
+t = 30000, // Particle count
+m = {x: 0, y: 0}, // Mouse coordinates
+u = true, // Playing or paused
+i, n, x, y, o, k, // Reusable variables
+w, h, f, d, // Width, height, imagedata, actual data array
+r, g, b, z = 0, // Red, green, blue, degrees of color rotation
+v = 180, // Center of color range
+l = 75, // Maximum color deviation
+L = () => { // Main loop
+  z += z < 20 ? 360 : -20; // Rotate hue through 360 degrees
+	k = z * P / 180; // Degrees to radians
+  r = S(k) * l + v | 0; // Red channel value (each channel is spaced 120 degrees apart)
+	g = S(k + 2 * P / 3) * l + v | 0; // Green channel value
+	b = S(k + 4 * P / 3) * l + v | 0; // Blue channel value
+	for (i = 0; i < t; i++) { // Loop through all of the particles
+		n = p[i]; // Get current particle
+		k = (n.y | 0) * w * 4 + (n.x | 0) * 4; // Get position in the imagedata array for the current particle
+		d[k] = d[k + 1] = d[k + 2] = 30; // Set pixel back to gray (instead of having to clear the entire canvas)
+	}
+	for (i = 0; i < t; i++) { // Loop through all of the particles
+		n = p[i]; // Get current particle
+		x = m.x - n.x; // Distance between particle and mouse on the X axis
+  	y = m.y - n.y; // Distance between particle and mouse on the Y axis
+		k = M.atan2(y, x); // Gravity angle in radians
+		o = 100 / (M.sqrt(x * x + y * y) + 0.01); // Gravity strength
+    n.a += M.cos(k) * o; // Update velocity for X axis
+    n.b += S(k) * o; // Update velocity for Y axis
+    n.x += n.a; // Add current velocity to X coordinate
+    n.y += n.b; // Add current velocity to Y coordinate
+		n.x += n.x >= w ? -w : n.x < 0 ? w : 0; // Wrap to opposite side of screen if out of bounds on X axis
+		n.y += n.y >= h ? -h : n.y < 0 ? h : 0; // Wrap to opposite side of screen if out of bounds on Y axis
+		n.a *= 0.96; // Reduce the X axis velocity (friction)
+    n.b *= 0.96; // Reduce the Y axis velocity (friction)
+		k = (n.y | 0) * w * 4 + (n.x | 0) * 4; // Get position in the imagedata array for the current particle
+		d[k] = r; // Set the red channel for the pixel
+		d[k + 1] = g; // Set the green channel for the pixel
+		d[k + 2] = b; // Set the blue channel for the pixel
+	}
+	c.putImageData(f, 0, 0); // Push the updated imagedata back to the canvas
+	u && requestAnimationFrame(L); // If playing, loop again
+},
+R = () => { // Window resize handler
+	w = a.width = innerWidth; // Set canvas width and w to window.innerWidth
+	h = a.height = innerHeight; // Set canvas height and h to window.innerHeight
+	c.fillStyle = 'rgb(30, 30, 30)'; // Canvas fill color
+	c.fillRect(0, 0, w, h); // Fill the canvas with the color
+	f = c.getImageData(0, 0, w, h); // Get the canvas image data
+	d = f.data; // Save a reference to the to pixel data array
+	m.x = w / 2 | 0; // Set mouse X to center of screen
+	m.y = h / 2 | 0; // Set mouse Y to center of screen
+};
+
+R(); // Call the resize function once to size the canvas before we begin
+
+for (i = 0; i < t; i++) p[i] = {x: X() * w, y: X() * h, a: X(), b: X()}; // Fill the particle array with random particles
+
+onresize = R; // Window resize event handler
+onmousemove = e => {m.x = e.pageX; m.y = e.pageY}; // Mouse move event handler
+addEventListener('touchmove', e => {e = e.touches[0]; m.x = e.pageX; m.y = e.pageY}); // Touch move event handler
+a.addEventListener('click', e => {u = !u; u && L()}); // Click event handler; Toggle boolean and if true, start loop
+
+L(); // Start the loop
+</script>
+</body>
+</html>

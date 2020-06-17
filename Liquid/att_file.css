@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+
+body{
+  margin: 0;
+  background: #ff0066;
+  font-family: "Open Sans";
+}
+h1{
+  color: #ffffff;
+  text-align: center;
+  font-size: 20px;
+}
+h2{
+  color: #0000b3;
+  text-align: center;
+  font-size: 15px;
+}
+canvas{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border: 2px #b30000;
+}
+a:link {
+    color: #ff00f0; 
+    background-color: transparent; 
+    text-decoration: none;
+}
+
+a:visited {
+    color: #ff00f0;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff000f;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #00cccc;
+    background-color: transparent;
+    text-decoration: underline;
+}

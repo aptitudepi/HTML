@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<!--
+The sidebar navigation code was largely taken from
+https://www.w3schools.com/howto/howto_js_sidenav.asp
+
+The editor is the ACE editor (the same one Khan Academy uses, but with a different skin)
+https://ace.c9.io/
+
+Spelling and grammar checked by AlexT @AlexTProgramming
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>HTML Documentation</title>
+    <style>
+body{
+    background-color:#666;
+}
+
+.ace_scrollbar-h {
+    word-wrap: break-word;
+    overflow-x:wrap;
+}
+
+#preview body{
+    background-color:white;
+}
+
+code{
+    background-color:#ccc;
+    color:#000;
+    border-radius:4px;
+    padding:1px 5px 1px 5px;
+    white-space:pre;
+}
+
+
+#details ul{
+    background-color:rgba(200,255,200,0.4);
+    border-left:solid;
+    border-radius: 0 10px 10px 0;
+    padding:1em;
+}
+
+#details ul li{
+    padding:0.3em;
+    list-style-type:none;
+}
+
+#preview code{
+    background-color:rgba(0,0,0,0);
+    border-radius:0;
+    padding:0;
+    white-space:normal;
+}
+
+pre{
+    background-color:#222;
+    color:#ddd;
+    border-radius:4px;
+    padding:10px 5px 10px 5px;
+}
+
+#preview pre{
+    background-color:rgba(0,0,0,0);
+    border-radius:0;
+    padding:0;
+    color:black;
+    
+}
+
+a{
+    color:#afa;
+}
+
+code a{
+    color:#33d;
+}
+
+#preview a{
+    color:#00f;
+}
+
+.title{
+    color:#fff;
+    text-align:center;
+    font-family:helvetica;
+    margin:1%;
+}
+
+#editor {
+    margin-left:5%;
+    margin-right:5%;
+    height: 200px;
+    margin-bottom:0;
+    overflow-x:wrap;
+}
+
+#preview{
+    background-color:white;
+    color:black;
+    height:200px;
+    margin-left:5%;
+    margin-right:5%;
+    padding:2%;
+    overflow:auto;
+}
+
+#details{
+    color:#fff;
+    font-family:helvetica;
+    background-color:#278;
+    margin-left:5%;
+    margin-right:5%;
+    margin-top:3%;
+    padding:2.5%;
+    border-radius:10px;
+    box-shadow: 0px 0px 15px #49a;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #555;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space:nowrap;
+    transition: 0.5s;
+    padding-top: 40px;
+}
+
+.sidenav a {
+    padding: 2px 2px 2px 30px;
+    text-decoration: none;
+    font-size: 1em;
+    color: #ddd;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav h3 {
+    padding: 2px 2px 2px 15px;
+    text-decoration: none;
+    font-size: 1em;
+    color: #fff;
+    display: block;
+    transition: 0.3s;
+    margin:0;
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #fff;
+    cursor:pointer;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-left .5s;
+    min-height: 100%;
+}
+
+#open {
+    font-size:30px;
+    cursor:pointer;
+    position:fixed;
+    color:#fff;
+    background-color:#333;
+    padding:4px 8px 4px 8px;
+    border-bottom-right-radius:15px;
+}
+
+#mainb {
+  padding: 20px;
+  padding-bottom:70px;
+}
+
+#footer {
+  height: 50px;
+  margin-top: -50px;
+  color:white;
+  background-color:#256;
+  text-align:center;
+  font-size:1.2em;
+  line-height: 50px;
+  overflow-y:hidden;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+    </style>
+</head>
+<body>
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <h3>Basic HTML</h3>
+  <a onClick="page('Comments');">Comments</a>
+  <a onClick="page('Headings');">Headings</a>
+  <a onClick="page('Paragraphs');">Paragraphs</a>
+  <a onClick="page('Line Breaks');">Line Breaks</a>
+  <a onClick="page('Lists');">Lists</a>
+  <a onClick="page('Emphasis');">Emphasis</a>
+  <a onClick="page('Quotes');">Quotes</a>
+  <a onClick="page('Links');">Links</a>
+  <a onClick="page('Images');">Images</a>
+  <a onClick="page('Tables');">Tables</a>
+  <h3>Advanced HTML</h3>
+  <a onClick="page('Blocks');">Blocks</a>
+  <a onClick="page('Classes');">Classes</a>
+  <a onClick="page('Input');">Input</a>
+  <h3>Basic CSS</h3>
+  <a onClick="page('Colors');">Colors</a>
+  <a onClick="page('Size');">Size</a>
+  <a onClick="page('Borders');">Borders</a>
+  <a onClick="page('Margins');">Margins</a>
+  <a onClick="page('Padding');">Padding</a>
+  <a onClick="page('Fonts');">Fonts</a>
+</div>
+<div id="open" onclick="openNav()">&#9776;</div>
+<div id="main">
+<div id="mainb">
+    <h2 class="title">HTML Documentation</h2>
+    <h3 class="title" id="title">&lth> tags</h3>
+    <pre id="editor"></pre>
+    <div id="preview"></div>
+    <div id="details"></div>
+</div>
+<footer id="footer">All code is made by <a href="https://khanacademy.org/profile/Efhiii/projects">Edward Haas</a> and released under an <a href="https://opensource.org/licenses/mit-license.php">MIT liscense</a></footer>
+</div>
+<!--Navigation stuff-->
+<script>
+function openNav() {
+    document.getElementById("mySidenav").style.width = "150px";
+    document.getElementById("main").style.marginLeft = "150px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+<script src="https://cdn.rawgit.com/ajaxorg/ace-builds/784ffa86/src-min-noconflict/ace.js" charset="utf-8"></script>
+<!--Manage the editor-->
+<script>
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/idle_fingers");
+editor.session.setMode("ace/mode/html");
+editor.getSession().setUseWrapMode(true);
+
+var preview=document.getElementById("preview");
+function run(){
+    var txt=editor.getValue();
+    preview.innerHTML=txt;
+};
+run();
+document.getElementById("editor").addEventListener("keyup",run);
+</script>
+<!--Manage the pages-->
+<script>
+var details=document.getElementById("details");
+var title=document.getElementById("title");
+function page(page){
+    title.innerHTML=page;
+    switch(page){
+case("Comments"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Comments have the open tag <code>&lt;!--</code> and the close tag <code>--></code>. Anything in between is a comment and not read by the computer. Use them to explain what your code does.";
+    editor.setValue("<!--feel free to edit this-->");
+break;
+case("Headings"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;The heading tags are used for organizing headings. By default they use the standard serif font and only differ by font size with <code>&lth1></code> being the biggest and <code>&lth6></code> being the smallest.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;Although most browsers will allow you to go without it, to help your code make sense, be clean, and be error free you need a closing tag at the end of your heading. A closing tag is the same as the normal tag, but it has a slash <code>/</code> after the <code><</code>. So, for example, the closing tag to <code>&lt;h1></code> is <code>&lt;/h1></code>. See the code example for more context.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;Although the headings have various default sizes, it is recommended not to choose your heading based on the default font size. If you want a different font size, use CSS instead and choose the proper heading number for the layout of your site.";
+    editor.setValue("<!--feel free to edit this-->\n<h1>This is a main header</h1>\n<h2>This is a secondary header</h2>\n<h3>This is yet another header</h3>\n<h4>This is the 4th Header</h4>\n<h5>This is the 5th</h5>\n<h6>This is the last</h6>");
+break;
+case("Paragraphs"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;The paragraph tag <code>&lt;p></code> is very similar to the header tags. The main difference is how it's expected to be used. The paragraph tag is typically used where you would put a paragraph, like in an article or a blog. The default font is the standard serif font and is usually rendered in a way that resembles 12 point by default. Like the header tags, you need a closing tag <code>&lt;/p></code> to mark the end of the tag.";
+    editor.setValue("<!--feel free to edit this-->\n<h1>Paragraphs</h1>\n<p>\n    This is a paragraph. If you have a blog or write articles,\n    you will use this a lot. You will notice that even if the code\n    has a line break or white space,\n\n    all that the output shows is a\n    space.<br>The &lt;br> tag will help you make line breaks and\n    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;nbsp;\n    will help you with spaces.<br><br>\n    &nbsp;&nbsp;&nbsp;&nbsp;This is just the basics, we will cover\n    these more later.\n</p>");
+break;
+case("Line Breaks"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;A line break doesn't occur in the output just because it occurs in the code. In order to have a line break in the output, your simplest option is the <code>&lt;br></code> tag. Unlike the heading tags and paragraph tag, you don't need a closing tag for the line break tag.";
+    editor.setValue("<!--feel free to edit this-->\n<h1>Line Breaks</h1>\n<p>\n    &nbsp;&nbsp;&nbsp;&nbsp;Line breaks are very useful.\n    You will likely find yourself needing a line break a lot.\n    It's not hard t have line breaks become one of your most used tags.\n    <br><br>&nbsp;&nbsp;&nbsp;&nbsp;\n    Remember that you can clean up your code with line breaks since\n    line breaks in code only constitute a space, if that.\n</p>");
+break;
+case("Lists"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;There are two types of lists in HTML; unordered and ordered. The difference is one has uniform bullet points and the other has some counting scheme.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;ul></code> is the tag for an unordered list. The unordered list will give a bullet point to every list item created with <code>&lt;li></code>, the list tag.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;ol></code> is the tag for an ordered list. The ordered list will give an item created with <code>&lt;li></code>, the list tag, a numerated bullet.";
+    editor.setValue("<!--feel free to edit this-->\n<h1>Lists</h1>\n<p>\n    <ul>\n        <li>Ordered</li>\n        <ol type=\"A\">\n            <li>1 (default)</li>\n            <li>a</li>\n            <li>A</li>\n            <li>i</li>\n            <li>I</li>\n        </ol>\n        <li>Unordered</li>\n        <ul style=\"list-style-type:square;\">\n            <li>disc (default)</li>\n            <li>circle</li>\n            <li>square</li>\n            <li>none</li>\n        </ul>\n    </ul>\n</p>");
+break;
+case("Emphasis"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;There are quite a few formatting tags and they all basically work the same; open tag, text that gets formatted, closing tag. Here’s a list of some of the formatting tags and what they do:<ul><li><code>&lt;b></code> - Bold text</li><li><code>&lt;strong></code> - Important text</li><li><code>&lt;i></code> - Italic text</li><li><code>&lt;em></code> - Emphasized text</li><li><code>&lt;mark></code> - Marked text</li><li><code>&lt;small></code> - Small text</li><li><code>&lt;del></code> - Deleted text</li><li><code>&lt;ins></code> - Inserted text</li><li><code>&lt;sub></code> - Subscript text</li><li><code>&lt;sup></code> - Superscript text</li><li><code>&lt;code></code> - Defines programming code</li><li><code>&lt;kbp></code> - Defines keyboard input</li><li><code>&lt;samp></code> - Defines computer output</li><li><code>&lt;var></code> - Defines a variable</li><li><code>&lt;pre></code> - Defines preformatted text</li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<h1>Emphasis</h1>\n<p>\n    <ul>\n        <li><code>&lt;b></code> - <b>Bold text</b></li>\n        <li><code>&lt;strong></code> - <strong>Important text</strong></li>\n        <li><code>&lt;i></code> - <i>Italic text</i></li>\n        <li><code>&lt;em></code> - <em>Emphasized text</em></li>\n        <li><code>&lt;mark></code> - <mark>Marked text</mark></li>\n        <li><code>&lt;small></code> - <small>Small text</small></li>\n        <li><code>&lt;del></code> - <del>Deleted text</del></li>\n        <li><code>&lt;ins></code> - <ins>Inserted tex</ins>t</li>\n        <li><code>&lt;sub></code> - <sub>Subscript text</sub></li>\n        <li><code>&lt;sup></code> - <sup>Superscript text</sup></li>\n        <li><code>&lt;code></code> - <code>Defines programming code</code></li>\n        <li><code>&lt;kbp></code> - <kbp>Defines keyboard input</kbp></li>\n        <li><code>&lt;samp></code> - <samp>Defines computer output</samp></li>\n        <li><code>&lt;var></code> - <var>Defines a variable</var></li>\n        <li><code>&lt;pre></code> - <pre>Defines preformatted text</pre></li>\n    </ul>\n</p>");
+break;
+case("Quotes"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;In addition to emphasis, there are a few tags specifically for citation:<ul><li><code>&lt;abbr></code> - Defines an abbreviation or acronym</li><li><code>&lt;address></code> - Defines contact information for the author/owner of a document</li><li><code>&lt;bdo></code> - Defines the text direction</li><li><code>&lt;blockquote></code> - Defines a section that is quoted from another source</li><li><code>&lt;cite></code> - Defines the title of a work</li><li><code>&lt;q></code> - Defines a short inline quotation</li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<h1>Quotes</h1>\n<p>\n    <ul>\n<li><code>&lt;abbr></code> - <abbr\ntitle=\"abbreviated text\">text</abbr></li>\n<li><code>&lt;address></code> - <address>\n    1234 Seasame St.<br>\n    Los Angeles CA</address></li>>\n<li><code>&lt;bdo></code> - <bdo dir=\"rtl\">\n    backwards text</bdo></li>\n<li><code>&lt;blockquote></code> - <blockquote>\n    text that's in a block quote</blockquote></li>\n    </ul>\n<li><code>&lt;cite></code> - <cite>\n    cited text</cite></li>\n<li><code>&lt;q></code> - <q>quoted text</q></li>\n</p>");
+break;
+case("Links"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Links are powerful things. It’s the easiest way to get from one part of the internet to another. You can make links in HTML using the <code>&lt;a></code> tag. It works like this:<pre>&lt;a href=”link”>link text&lt;/a></pre>&nbsp;&nbsp;&nbsp;&nbsp;The link in the href can be one of several things. The most abvious is a URL. It can also link to a file from the same address using something like <code>href=”/folder/img.png”</code>.<br><br>&nbsp;&nbsp;&nbsp;&nbsp<code>#</code> represents linking a part of the page. For example, the link <code>&lt;a href=\”#”>#&lt;/a></code> would do nothing. You can link to HTML IDs in this way, for example <code>&lt;a href=\”#title\”>title&lt;/a></code> would link to the section with the ID `title` on the page if it exists. You can also put this at the end of a URL of a different site but you have to be careful about if the other site’s IDs change.<br><br>&nbsp;&nbsp;&nbsp;There is a target atribute which you can set to change where the link opens.<pre>&lt;a href=”link” target=\"where to open\">link text&lt;/a></pre><ul></code><li><code>_blank</code> - opens in a new tab</li><li><code>_parent</code> - opens in  the same frame as it was clicked</l><li><code>_self</code> - opens in the parent frameset</li><li><code>_top</code> - opens in the full body of the window</li><l><code>framename</code> - opens in a named frame</li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<h1>Links</h1>\n<p>\n    <a href=\"https://khanacademy.org\" target=\"_blank\">Khan Academy</a><br>\n    <a href=\"#\">Top of page</a><br>\n    <a href=\"#details\">Details</a><br>\n</p>\n");
+break;
+case("Images"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Images are the quickest way to bring lots of life to a generic webpage. You can bring in images through HTML using the image tag.<pre>&lt;img src=\”image link\” alt=\”description\”></pre>&nbsp;&nbsp;&nbsp;&nbsp;The <code>src</code> property is for where the image is located. If the image is online, it’d be a URL, if it’s local, you use a local address.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;The <code>alt</code> property isn’t necessary but if the image doesn’t load or the viewer is using a screen reader, the alt property is how they know what the image should be.";
+    editor.setValue("<!--feel free to edit this-->\n<h1>Images</h1>\n<p>\n    <a href=\"https://www.khanacademy.org/cs/-/5866668142428160\"\n    target=\"_blank\">\n        <img\n            src=\"https://www.khanacademy.org/cs/-/6245855952437248/5700735861784576.png\"\n            alt=\"Gray Leaf\"\n            width=\"100px\"\n        >\n    </a>\n</p>");
+break;
+case("Tables"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Tables can be added to HTML using the <code>&lt;table></code> tag. Inside the table’s open and close tags you can put rows and columns using the table row tag <code>&lt;tr></code>, table cell tag <code>&lt;td></code>, and the table header tag <code>&lt;th></code>.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;Additionally, there are the <code>&lt;caption></code>, <code>&lt;col></code>, <code>&lt;colgroup></code>, <code>&lt;thead></code>, <code>&lt;tfoot></code>, and <code>&lt;tbody></code> tags.";
+    editor.setValue("<!--feel free to edit this-->\n<h1>Tables</h1>\n<p>\n    Prisoner's dilemma\n    <table>\n        <tr>\n         <tr>\n            <th></th>\n            <th>Cooperate</th>\n            <th>Defect</th>\n        </tr>\n        <tr>\n            <th>Cooperate</th>\n            <td>(-1,-1)</td>\n            <td>(-10,0)</td>\n        </tr>\n        <tr>\n            <th>Defect</th>\n            <td>(0,-10)</td>\n            <td>(-5,-5)</td>\n        </tr>\n    </table>\n</p>");
+break;
+case("Blocks"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;For the most part, there are two types of HTML elements; block-level and inline.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;Block-level elements always start with a new line and, by default, use all the horizontal space they can have. Some common block-level elements include. Using styling and classes on block-level elements is common and advised for making your blocks look nice:<ul><li><code>&lt;div></code></li><li><code>&lt;h1>-&lt;h6></code></li><li><code>&lt;p></code></li><li><code>&lt;form></code></li></ul>&nbsp;&nbsp;&nbsp;&nbsp;Inline elements stay only just within the text inside them. Some common inline elements include:<ul><li><code>&lt;span></code></li><li><code>&lt;a></code></li><li><code>&lt;img></code></li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<p>\n    The <div style=\"background-color:yellow;\">div</div> is block-level\n</p>\n<p>\n    The <span style=\"background-color:yellow;\">span</span> is inline\n</p>");
+break;
+case("Classes"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Classes are very useful for styling your pages. By using classes, you can apply styling to everything of the same class, making them all uniform. In CSS a class is identified by being prefixed with a period <code>.</code>. ";
+    editor.setValue("<!--feel free to edit this-->\n<style>\n    .div-one{\n        background-color:black;\n        color:white;\n    }\n    \n    .class{\n        background-color:grey;\n    }\n</style>\n<div class=\"div-one\">\n    This is a div ellement with the class\n    <span class=\"class\">.div-one</span>\n</div>\n<p>\n    You can repeat classes so that you only have to write the CSS once\n</p>\n<div class=\"div-one\">\n    This is another div ellement with the class\n    <span class=\"class\">.div-one</class>\n</div>");
+break;
+case("Input"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Input is the main way to bring interactivity into your site. There are several tags for input:<ul><li><code>&lt;form></code> - Defines an HTML form for user input</li><li><code>&lt;input></code> - Defines an input control</li><li><code>&lt;textarea></code> - Defines a multiline input control (text area)</li><li><code>&lt;label></code> - Defines a label for an <code>&lt;input></code> element</li><li><code>&lt;fieldset></code> - Groups related elements in a form</li><li><code>&lt;legend></code> - Defines a caption for a <code>&lt;fieldset></code> element</li><li><code>&lt;select></code> - Defines a drop-down list</li><li><code>&lt;optgroup></code> - Defines a group of related options in a drop-down list</li><li><code>&lt;option></code> - Defines an option in a drop-down list</li><li><code>&lt;button></code> - Defines a clickable button</li><li><code>&lt;datalist></code> - Specifies a list of pre-defined options for input controls</li><li><code>&lt;keygen></code> - Defines a key-pair generator field (for forms)</li><li><code>&lt;output></code> - Defines the result of a calculation</li></ul>&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;input></code> is the most diverse of the input tags. Using <code>&lt;input></code>’s type attribute you can turn it into a color picker, a date picker, or, really, any kind of input you want. The value options for <code>&lt;input></code> are:<ul><li><code>text</code></li><li><code>password</code></li><li><code>submit</code></li><li><code>reset</code></li><li><code>radio</code></li><li><code>checkbox</code></li><li><code>button</code></li><li><code>color</code></li><li><code>date</code></li><li><code>datetime</code></li><li><code>datetime-local</code></li><li><code>email</code></li><li><code>month</code></li><li><code>number</code></li><li><code>range</code></li><li><code>search</code></li><li><code>tel</code></li><li><code>time</code></li><li><code>url</code></li><li><code>week</code></li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<style>\n#clr{\n    background-color:black;\n    color:white;\n    height:112%;\n    margin:-2.4%;\n}\n</style>\n<div id=\"clr\">\n    <input\n        type=\"color\"\n        id=\"picker\"\n        onChange=\"document.getElementById('clr').style.backgroundColor\n        =document.getElementById('picker').value;\">\n    <button\n    onClick=\"document.getElementById('clr').style.backgroundColor=\n    'white'\">\n        Click me\n    </button><br>\n    <textarea id=\"txtA\">Edit me. </textarea><br>\n    <button\n    onClick=\"document.getElementById('txt').innerHTML+=\n    document.getElementById('txtA').value\">Add text</button>\n    <p id=\"txt\"></p>\n</div>");
+break;
+case("Size"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Changing the size of blocks can be important in a site. With CSS, you can change the basic size of anything with its <code>width</code> and <code>height</code> parameters. You can use any of several metrics, including:<ul><li><code>%</code> - Defines a measurement as a percentage relative to its parent</li><li><code>cm</code> - Defines a measurement in centimeters</li><li><code>em</code> - A relative measurement for the height of a font in em spaces</li><li><code>ex</code> - Defines a measurement relative to a font's x-height. The x-height is determined by the height of the font's lowercase letter x</li><li><code>in</code> - Defines a measurement in inches</li><li><code>mm</code> - Defines a measurement in millimeters</li><li><code>pc</code> - Defines a measurement in picas. A pica is equivalent to 12 points; thus, there are 6 picas per inch</li><li><code>pt</code> - Defines a measurement in points. A point is defined as 1/72nd of an inch</li><li><code>px</code> - Defines a measurement in screen pixels</li><li><code>vh</code> - 1% of viewport height</li><li><code>vw</code> - 1% of viewport width</li><li><code>vmin</code> - 1vw or 1vh, whichever is smaller</li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<style>\n.red{\n    background-color:#fdd;\n    width:50%;\n    height:50%;\n}\n.blue{\n    background-color:#ddf;\n}\n</style>\n<p class=\"red\">\n    this has<br>\n    50% width and<br>\n    50% height\n</p>\n<p class=\"blue\">\n    this has no set size<br>\n</p>");
+break;
+case("Colors"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;In CSS styling, having the right color scheme is important. It’s one of the main things that either brings a site together or tears it apart. The most rudimentary coloring you can do is changing the <code>background-color</code> and <code>color</code>. Play around with the code to find colors you like. You can use keyword colors like <code>red</code> or <code>skyBlue</code>, you can use hex colors like <code>#5f5</code> or <code>#ff8158</code>, you can even use RGB like <code>rgb(255,122,0)</code> or <code>rgba(0,0,0,0.5)</code>.";
+    editor.setValue("<!--feel free to edit this-->\n<style>\n.colored{\n    background-color:#58b;\n    color:#5f5;\n}\n</style>\n<p class=\"colored\">\n    The background color is blue, #58b<br>\n    the text color is green, #5f5\n</p>");
+break;
+case("Borders"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Blocks can be given stylized borders using the CSS border properties. The property <code>border-style</code> can be any of<ul><li><code>dotted</code> - Defines a dotted border</li><li><code>dashed</code> - Defines a dashed border</li><li><code>solid</code> - Defines a solid border</li><li><code>double</code> - Defines a double border</li><li><code>groove</code> - Defines a 3D grooved border. The effect depends on the border-color value</li><li><code>ridge</code> - Defines a 3D ridged border. The effect depends on the border-color value</li><li><code>inset</code> - Defines a 3D inset border. The effect depends on the border-color value</li><li><code>outset</code> - Defines a 3D outset border. The effect depends on the border-color value</li><li><code>none</code> - Defines no border</li><li><code>hidden</code> - Defines a hidden border</li></ul>&nbsp;&nbsp;&nbsp;&nbsp;You can also use directions like <code>border-bottom-style</code> to give different sides of the block different borders. You can set several other border properties aswell:<ul><li><code>border</code> - Sets all the border properties in one declaration</li><li><code>border-bottom</code> - Sets all the bottom border properties in one declaration</li><li><code>border-bottom-color</code> - Sets the color of the bottom border</li><li><code>border-bottom-style</code> - Sets the style of the bottom border</li><li><code>border-bottom-width</code> - Sets the width of the bottom border</li><li><code>border-color</code> - Sets the color of the four borders</li><li><code>border-left</code> - Sets all the left border properties in one declaration</li><li><code>border-left-color</code> - Sets the color of the left border</li><li><code>border-left-style</code> - Sets the style of the left border</li><li><code>border-left-width</code> - Sets the width of the left border</li><li><code>border-radius</code> - Sets all the four border-*-radius properties for rounded corners</li><li><code>border-right</code> - Sets all the right border properties in one declaration</li><li><code>border-right-color</code> - Sets the color of the right border</li><li><code>border-right-style</code> - Sets the style of the right border</li><li><code>border-right-width</code> - Sets the width of the right border</li><li><code>border-style</code> - Sets the style of the four borders</li><li><code>border-top</code> - Sets all the top border properties in one declaration</li><li><code>border-top-color</code> - Sets the color of the top border</li><li><code>border-top-style</code> - Sets the style of the top border</li><li><code>border-top-width</code> - Sets the width of the top border</li><li><code>border-width</code> - Sets the width of the four borders</li></ul>&nbsp;&nbsp;&nbsp;&nbsp;You can also use <code>outline</code> in a very similar way to <code>border</code>. <code>outline</code> is essentially the same as <code>border</code> with some key differences. For one, instead of <code>border-stuff</code> it’s <code>outline-stuff</code>. Another big difference is that <code>border</code> contributes to the size of the block whereas <code>outline</code> does not. The outline goes outside of the block and isn’t considered when checking block sizes. For this reason, outline is a good tool for debugging CSS because it tells you box borders without changing them.";
+    editor.setValue("<!--feel free to edit this-->\n<style>\n.red{\n    border-style:dashed;\n    border-color:red;\n    background-color:#fdd;\n    padding:10px;\n}\n.blue{\n    border-bottom-style:outset;\n    border-color:#aaf;\n    background-color:#ddf;\n    border-radius:10px;\n    padding:10px;\n}\n</style>\n<p class=\"red\">\n    this has a red<br>\n    dashed border\n</p>\n<p class=\"blue\">\n    this has a rounded blue outset<br>\n    border on the bottom\n</p>");
+break;
+case("Margins"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Margins are the spacing around a block. You can change the margin’s size with the margin CSS attributes:<ul><li><code>margin</code> - A shorthand property for setting the margin properties in one declaration</li><li><code>margin-bottom</code> - Sets the bottom margin of an element</li><li><code>margin-left</code> - Sets the left margin of an element</li><li><code>margin-right</code> - Sets the right margin of an element</li><li><code>margin-top</code> - Sets the top margin of an element</li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<style>\n.red{\n    background-color:#fdd;\n    padding:10px;\n    margin:20%;\n    margin-bottom:0;\n}\n.blue{\n    background-color:#ddf;\n    padding:10px;\n    margin:0;\n}\n</style>\n<p class=\"red\">\n    this has<br>\n    20% margins and<br>\n    0 bottom margin\n</p>\n<p class=\"blue\">\n    this has no margins<br>\n</p>");
+break;
+case("Padding"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Padding is the spacing inside a block. You can change the padding’s size with the padding CSS attributes:<ul><li><code>padding</code> - A shorthand property for setting the padding properties in one declaration</li><li><code>padding-bottom</code> - Sets the bottom padding of an element</li><li><code>padding-left</code> - Sets the left padding of an element</li><li><code>padding-right</code> - Sets the right padding of an element</li><li><code>padding-top</code> - Sets the top padding of an element</li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<style>\n.red{\n    background-color:#fdd;\n    padding:20%;\n    padding-bottom:0;\n}\n.blue{\n    background-color:#ddf;\n    padding:0;\n}\n</style>\n<p class=\"red\">\n    this has<br>\n    20% padding and<br>\n    0 bottom padding\n</p>\n<p class=\"blue\">\n    this has no padding<br>\n</p>");
+break;
+case("Fonts"):
+    details.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;Having good fonts is important in web pages. You want people to be able to read the text you give them and have your font match your page’s style. There are a couple of font properties you can play with to make your font look right:<ul><li><code>font</code> - Sets all the font properties in one declaration</li><li><code>font-family</code> - Specifies the font family for text</li><li><code>font-size</code> - Specifies the font size of text</li><li><code>font-style</code> - Specifies the font style for text</li><li><code>font-variant</code> - Specifies whether or not a text should be displayed in a small-caps font</li><li><code>font-weight</code> - Specifies the weight of a font</li></ul>&nbsp;&nbsp;&nbsp;&nbsp;There are several other text attributes including:<ul><li><code>color</code> - Sets the color of text</li><li><code>direction</code> - Specifies the text direction/writing direction</li><li><code>letter-spacing</code> - Increases or decreases the space between characters in a text</li><li><code>line-height</code> - Sets the line height</li><li><code>text-align</code> - Specifies the horizontal alignment of text</li><li><code>text-decoration</code> - Specifies the decoration added to text</li><li><code>text-indent</code> - Specifies the indentation of the first line in a text-block</li><li><code>text-shadow</code> - Specifies the shadow effect added to text</li><li><code>text-transform</code> - Controls the capitalization of text</li><li><code>text-overflow</code> - Specifies how overflowed content that is not displayed should be signaled to the user</li><li><code>unicode-bidi</code> - Used together with the direction property to set or return whether the text should be overridden to support multiple languages in the same document</li><li><code>vertical-align</code> - Sets the vertical alignment of an element</li><li><code>white-space</code> - Specifies how white-space inside an element is handled</li><li><code>word-spacing</code> - Increases or decreases the space between words in a text</li></ul>";
+    editor.setValue("<!--feel free to edit this-->\n<style>\n.red{\n    background-color:#fdd;\n    padding:10px;\n    font-family:\"comic sans ms\", helvetica;\n    font-size:1.5em;\n}\n.blue{\n    background-color:#ddf;\n    padding:10px;\n    font-family:webdings, fantasy;\n    color:#0a0;\n}\n</style>\n<p class=\"red\">\n    This is <i>Comic Sans MS</i> with\n    <i>Helvetica</i> as a fallback\n</p>\n<p class=\"blue\">\n    You probably can't read this\n</p>");
+break;
+default:
+    details.innerHTML="There seems to be a mistake, this page doesn't exist.";
+    editor.setValue("");
+    };
+    run();
+};
+page("Headings");
+</script>
+</body>
+</html>
